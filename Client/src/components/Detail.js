@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addToCart } from "../Actions_art_wear/Cart_And_Order_Action";
 
 const Detail = ({
+  role,
   product,
   addToCart,
   product: { name, price, description, color, category, saison }
@@ -23,7 +24,7 @@ const Detail = ({
           <div className="container">
             <div className="row">
               <div className="col-md-12 mb-0">
-                <Link to="index.html">Home</Link>{" "}
+                <Link to="index.html">Home</Link>
                 <span className="mx-2 mb-0">/</span>
                 <strong className="text-black">Tank Top T-Shirt</strong>
               </div>
@@ -88,56 +89,65 @@ const Detail = ({
                       <input type="radio" id="option-xl" name="shop-sizes" />
                     </span>
                     <span className="d-inline-block text-black">
-                      {" "}
                       Extra Large
                     </span>
                   </label>
                 </div>
-                <div className="mb-5">
-                  <div
-                    className="input-group mb-3"
-                    style={{ maxWidth: "120px" }}
-                  >
-                    <div className="input-group-prepend">
-                      <button
-                        onClick={
-                          qte === 1 ? null : () => setquantity({ qte: qte - 1 })
-                        }
-                        className="btn btn-outline-primary "
-                        type="button"
+
+                {/***** for Admin  */}
+                {role === "user" ? (
+                  <div>
+                    <div className="mb-5">
+                      <div
+                        className="input-group mb-3"
+                        style={{ maxWidth: "120px" }}
                       >
-                        -
-                      </button>
+                        <div className="input-group-prepend">
+                          <button
+                            onClick={
+                              qte === 1
+                                ? null
+                                : () => setquantity({ qte: qte - 1 })
+                            }
+                            className="btn btn-outline-primary "
+                            type="button"
+                          >
+                            -
+                          </button>
+                        </div>
+                        <input
+                          onChange={handelchange}
+                          type="text"
+                          className="form-control text-center"
+                          value={qte}
+                          placeholder=""
+                          aria-label="Example text with button addon"
+                          aria-describedby="button-addon1"
+                        />
+                        <div className="input-group-append">
+                          <button
+                            onClick={() => setquantity({ qte: qte + 1 })}
+                            className="btn btn-outline-primary "
+                            type="button"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <input
-                      onChange={handelchange}
-                      type="text"
-                      className="form-control text-center"
-                      value={qte}
-                      placeholder=""
-                      aria-label="Example text with button addon"
-                      aria-describedby="button-addon1"
-                    />
-                    <div className="input-group-append">
-                      <button
-                        onClick={() => setquantity({ qte: qte + 1 })}
-                        className="btn btn-outline-primary "
-                        type="button"
+                    <p>
+                      <Link
+                        onClick={() => addToCart({ ...product, qte: qte })}
+                        to="cart"
+                        className="buy-now btn btn-sm btn-primary"
                       >
-                        +
-                      </button>
-                    </div>
+                        Add To Cart
+                      </Link>
+                    </p>
                   </div>
-                </div>
-                <p>
-                  <Link
-                    onClick={() => addToCart({ ...product, qte: qte })}
-                    to="cart"
-                    className="buy-now btn btn-sm btn-primary"
-                  >
-                    Add To Cart
-                  </Link>
-                </p>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
           </div>
@@ -164,7 +174,7 @@ const Detail = ({
                       </figure>
                       <div className="block-4-text p-4">
                         <h3>
-                          <Link to="#">Tank Top</Link>
+                          <Link to="#!">Tank Top</Link>
                         </h3>
                         <p className="mb-0">Finding perfect t-shirt</p>
                         <p className="text-primary font-weight-bold">$50</p>
@@ -182,7 +192,7 @@ const Detail = ({
                       </figure>
                       <div className="block-4-text p-4">
                         <h3>
-                          <Link to="#">Corater</Link>
+                          <Link to="#!">Corater</Link>
                         </h3>
                         <p className="mb-0">Finding perfect products</p>
                         <p className="text-primary font-weight-bold">$50</p>
@@ -200,7 +210,7 @@ const Detail = ({
                       </figure>
                       <div className="block-4-text p-4">
                         <h3>
-                          <Link to="#">Polo Shirt</Link>
+                          <Link to="#!">Polo Shirt</Link>
                         </h3>
                         <p className="mb-0">Finding perfect products</p>
                         <p className="text-primary font-weight-bold">$50</p>
@@ -218,7 +228,7 @@ const Detail = ({
                       </figure>
                       <div className="block-4-text p-4">
                         <h3>
-                          <Link to="#">T-Shirt Mockup</Link>
+                          <Link to="#!">T-Shirt Mockup</Link>
                         </h3>
                         <p className="mb-0">Finding perfect products</p>
                         <p className="text-primary font-weight-bold">$50</p>
@@ -236,7 +246,7 @@ const Detail = ({
                       </figure>
                       <div className="block-4-text p-4">
                         <h3>
-                          <Link to="#">Corater</Link>
+                          <Link to="#!">Corater</Link>
                         </h3>
                         <p className="mb-0">Finding perfect products</p>
                         <p className="text-primary font-weight-bold">$50</p>
@@ -255,7 +265,8 @@ const Detail = ({
 
 const mapstatetoprops = state => {
   return {
-    product: state.Product_Reducer.product
+    product: state.Product_Reducer.product,
+    role: state.sign_Reducer.user.role
   };
 };
 export default connect(mapstatetoprops, { addToCart })(Detail);

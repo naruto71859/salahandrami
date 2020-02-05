@@ -1,10 +1,10 @@
 import {
-  ADD_TO_CART,
-  ADD_ORDER_TO_DB,
+  ADD_ARTICLE_TO_CART,
+  CLEAR_CART_STATE,
   GET_ALL_ORDERS,
   AUTH_ERROR,
-  UPDATE_ONE_PRODUCT,
-  DELETE_ONE_PRODUCT
+  UPDATE_CART_ARTICLE,
+  DELETE_CART_PRODUCT
 } from "./Const";
 import axios from "axios";
 import setAuthToken from "../Utils/setAuthToken";
@@ -12,13 +12,13 @@ import setAuthToken from "../Utils/setAuthToken";
 /* **************  Cart ACTION  ******************  */
 
 export const addToCart = obj => dispatch => {
-  dispatch({ type: ADD_TO_CART, payload: obj });
+  dispatch({ type: ADD_ARTICLE_TO_CART, payload: obj });
 };
 export const updateAllArticles = obj => dispatch => {
-  dispatch({ type: UPDATE_ONE_PRODUCT, payload: obj });
+  dispatch({ type: UPDATE_CART_ARTICLE, payload: obj });
 };
 export const deleteOneArticle = id => dispatch => {
-  dispatch({ type: DELETE_ONE_PRODUCT, payload: id });
+  dispatch({ type: DELETE_CART_PRODUCT, payload: id });
 };
 /* **************  Order ACTION  ******************  */
 
@@ -32,7 +32,7 @@ export const add_Order_To_Db = array => async dispatch => {
     await axios.post("/artwear/order", body, config);
     console.log("we access post order route ");
 
-    dispatch({ type: ADD_ORDER_TO_DB, payload: array });
+    dispatch({ type: CLEAR_CART_STATE });
   } catch (err) {
     console.log("we fail to post the order");
     console.log(err);

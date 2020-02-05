@@ -1,22 +1,20 @@
 import {
-  ADD_TO_CART,
-  ADD_ORDER_TO_DB,
+  ADD_ARTICLE_TO_CART,
+  CLEAR_CART_STATE,
   GET_ALL_ORDERS,
-  UPDATE_ONE_PRODUCT,
-  DELETE_ONE_PRODUCT
+  UPDATE_CART_ARTICLE,
+  DELETE_CART_PRODUCT
 } from "../Actions_art_wear/Const";
 
 /* *************   Cart Reducer  ************************* */
 
-const panier = [
- 
-];
+const panier = [];
 
 export const panier_Reducer = (state = panier, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case ADD_TO_CART:
+    case ADD_ARTICLE_TO_CART:
       return state.map(el => el.name).includes(payload.name)
         ? state.map(el =>
             el.name === payload.name
@@ -25,14 +23,14 @@ export const panier_Reducer = (state = panier, action) => {
           )
         : [...state, payload];
 
-    case ADD_ORDER_TO_DB:
-      return state;
+    case CLEAR_CART_STATE:
+      return (state = []);
 
-    case UPDATE_ONE_PRODUCT:
+    case UPDATE_CART_ARTICLE:
       return state.map(el =>
         el._id === payload._id ? { ...el, qte: payload.qte } : el
       );
-    case DELETE_ONE_PRODUCT:
+    case DELETE_CART_PRODUCT:
       return state.filter(el => el._id !== payload);
     default:
       return state;

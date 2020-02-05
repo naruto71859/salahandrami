@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { register } from "../Actions_art_wear/signAction";
-const Register = ({ register }) => {
+const Register = ({ register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +18,8 @@ const Register = ({ register }) => {
 
     register({ name, email, password });
   };
+
+  if (isAuthenticated) return <Redirect to="/" />;
   return (
     <Fragment>
       <div className="site-wrap ">
@@ -99,12 +101,12 @@ const Register = ({ register }) => {
                   <div className=" row  justify-content-around ">
                     <input
                       type="submit"
-                      className="btn btn-primary btn-sm "
+                      className="btn btn-info btn-sm "
                       value="SignUp"
                     />
 
                     <Link to="/signin">
-                      <button className="btn btn-sm btn-primary">Login</button>
+                      <button className="btn btn-sm btn-secondary">Login</button>
                     </Link>
                   </div>
                 </div>
@@ -119,6 +121,8 @@ const Register = ({ register }) => {
 };
 
 const mapstatetoprops = state => {
-  return {};
+  return {
+    isAuthenticated: state.sign_Reducer.isAuthenticated
+  };
 };
 export default connect(mapstatetoprops, { register })(Register);

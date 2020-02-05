@@ -18,7 +18,7 @@ const ProductCard = ({
             className="block-4-image"
             onClick={() => get_one_product(_id)}
           >
-            <p href="shop-single.html">
+            <p >
               <img
                 src="images/cloth_1.jpg"
                 alt=" placeholder"
@@ -27,8 +27,8 @@ const ProductCard = ({
             </p>
           </Link>
           <Link to="/detail" className="block-4-text p-4">
-            <h3 onClick={() => get_one_product(_id)}>
-              <p href="shop-single.html">{name} </p>
+            <h3  onClick={() => get_one_product(_id)}>
+              <p >{name} </p>
             </h3>
             <p className="mb-0">description: the {name} is </p>
             <p className="text-primary font-weight-bold">{price}</p>

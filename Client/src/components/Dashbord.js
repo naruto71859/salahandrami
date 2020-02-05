@@ -1,15 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
-import NAV from "./layout/NAV";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
+import { get_User_Profile } from "../Actions_art_wear/signAction";
 
 const Dashbord = () => {
+  useEffect(() => {
+    get_User_Profile();
+  }, []);
   return (
     <Fragment>
       <div className="site-wrap">
         <div
           className="site-blocks-cover"
-          style={{backgroundImage: 'url(images/hero_1.jpg)'}}
+          style={{ backgroundImage: "url(images/hero_1.jpg)" }}
           data-aos="fade"
         >
           <div className="container">
@@ -116,7 +119,11 @@ const Dashbord = () => {
               >
                 <Link className="block-2-item" to="#">
                   <figure className="image">
-                    <img src="images/children.jpg" alt="" className="img-fluid" />
+                    <img
+                      src="images/children.jpg"
+                      alt=""
+                      className="img-fluid"
+                    />
                   </figure>
                   <div className="text">
                     <span className="text-uppercase">Collections</span>
@@ -272,7 +279,8 @@ const Dashbord = () => {
                 </h2>
                 <p className="post-meta mb-4">
                   By <Link to="#">Carl Smith</Link>{" "}
-                  <span className="block-8-sep">&bullet;</span> September 3, 2018
+                  <span className="block-8-sep">&bullet;</span> September 3,
+                  2018
                 </p>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -288,16 +296,12 @@ const Dashbord = () => {
             </div>
           </div>
         </div>
-
-     
       </div>
     </Fragment>
   );
 };
 
 const mapstatetoprops = state => {
-  return{
-
-  }
-}
-export default connect(mapstatetoprops ,  { })(Dashbord);
+  return {};
+};
+export default connect(mapstatetoprops, {})(Dashbord);

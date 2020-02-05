@@ -31,9 +31,9 @@ export default function(state = initialState, action) {
         loading: false
       };
 
-    case AUTH_ERROR:
+    // case AUTH_ERROR:
     case LOGIN_FAIL:
-    case REGISTER_FAIL:
+      // case REGISTER_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        users: payload // payload is the data sent from the back (obj)
+        users: payload // payload is the data sent from the back (Array)
       };
     default:
       return state;

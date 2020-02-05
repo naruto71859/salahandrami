@@ -47,7 +47,8 @@ router.post("/signup", checkingregister(), validateCheck, async (req, res) => {
 
     const payload = {
       user: {
-        id: user.id
+        id: user.id,
+       
       }
     };
     let token = await jwt.sign(payload, "secret-token", {
@@ -178,19 +179,19 @@ router.put(
     try {
       let useradress = await User.findById(req.user.id, "adress");
       console.log("user", useradress);
-      if (!user)
+      if (!useradress)
         return res
           .status(400)
           .json({ msg: " this user do not exist in data base" });
 
-      let modif = await User.findByIdAndUpdate(
+          useradress= await User.findByIdAndUpdate(
         req.user.id,
         { $set: req.body },
         { new: true }
       );
-      res.status(200).json(modif);
+      res.status(200).json(useradress);
     } catch (err) {
-      console.log("we fail to modify the user");
+      console.log(err);
       res.status(400).json({ msg: "sry we couldent modify the user" });
     }
   }

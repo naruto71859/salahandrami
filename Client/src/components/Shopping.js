@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import { searchAll } from "../Actions_art_wear/searchAction";
 import AdminProductCard from "./AdminProductCard";
 
-const Shopping = ({ products = [], searchAll }) => {
+const Shopping = ({ products = [], role, searchAll }) => {
   useEffect(() => {
     searchAll();
   }, []);
-
   return (
     <Fragment>
       <div className="site-wrap">
@@ -16,7 +15,8 @@ const Shopping = ({ products = [], searchAll }) => {
           <div className="container">
             <div className="row">
               <div className="col-md-12 mb-0">
-                <a href="index.html">Home</a> <span className="mx-2 mb-0">/</span>
+                <a href="index.html">Home</a>{" "}
+                <span className="mx-2 mb-0">/</span>
                 <strong className="text-black">Shop</strong>
               </div>
             </div>
@@ -94,11 +94,13 @@ const Shopping = ({ products = [], searchAll }) => {
                   </div>
                 </div>
                 <div className="row mb-5">
-                  {products.map((el, i) => ( 
-                    <AdminProductCard product={el} key={i} />
-
-                    // <ProductCard product={el} key={i} />
-                  ))}
+                  {products.map((el, i) =>
+                    role === "user" ? (
+                      <ProductCard product={el} key={i} />
+                    ) : (
+                      <AdminProductCard product={el} key={i} />
+                    )
+                  )}
                 </div>
               </div>
 
@@ -166,19 +168,31 @@ const Shopping = ({ products = [], searchAll }) => {
                     <h3 className="mb-3 h6 text-uppercase text-black d-block">
                       Color
                     </h3>
-                    <a href="#!" className="d-flex color-item align-items-center">
+                    <a
+                      href="#!"
+                      className="d-flex color-item align-items-center"
+                    >
                       <span className="bg-danger color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Red (2,429)</span>
                     </a>
-                    <a href="#!" className="d-flex color-item align-items-center">
+                    <a
+                      href="#!"
+                      className="d-flex color-item align-items-center"
+                    >
                       <span className="bg-success color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Green (2,298)</span>
                     </a>
-                    <a href="#!" className="d-flex color-item align-items-center">
+                    <a
+                      href="#!"
+                      className="d-flex color-item align-items-center"
+                    >
                       <span className="bg-info color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Blue (1,075)</span>
                     </a>
-                    <a href="#!" className="d-flex color-item align-items-center">
+                    <a
+                      href="#!"
+                      className="d-flex color-item align-items-center"
+                    >
                       <span className="bg-primary color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Purple (1,075)</span>
                     </a>
@@ -241,7 +255,11 @@ const Shopping = ({ products = [], searchAll }) => {
                     >
                       <a className="block-2-item" href="#!">
                         <figure className="image">
-                          <img src="images/men.jpg" alt="" className="img-fluid" />
+                          <img
+                            src="images/men.jpg"
+                            alt=""
+                            className="img-fluid"
+                          />
                         </figure>
                         <div className="text">
                           <span className="text-uppercase">Collections</span>
@@ -262,7 +280,8 @@ const Shopping = ({ products = [], searchAll }) => {
 
 const mapstatetoprops = state => {
   return {
-    products: state.search_Reducer
+    products: state.search_Reducer,
+    role: state.sign_Reducer.user.role
   };
 };
 export default connect(mapstatetoprops, { searchAll })(Shopping);

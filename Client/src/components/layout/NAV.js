@@ -1,9 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { get_User_Profile } from "../../Actions_art_wear/signAction";
+import { get_User_Profile, LogOut } from "../../Actions_art_wear/signAction";
 
-const NAV = ({ nb_articles, get_User_Profile }) => {
+const NAV = ({ nb_articles, role, get_User_Profile, LogOut }) => {
+  useEffect(() => {
+    get_User_Profile();
+  }, []);
   return (
     <Fragment>
       <div className="site-wrap">
@@ -30,114 +33,162 @@ const NAV = ({ nb_articles, get_User_Profile }) => {
                   </div>
                 </div>
 
-                <div className="col-6 col-md-4 order-3 order-md-3 text-right">
-                  <div className="site-top-icons">
-                    <ul>
-                      <li>
-                        <Link to="/adminproduct">
-                          <button className="btn btn-sm btn-primary mr-5">
-                            Add product
-                          </button>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/profile" onClick={() => get_User_Profile()}>
-                          <span className="icon icon-person"></span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <span className="icon icon-heart-o"></span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/cart" className="site-cart">
-                          <span className="icon icon-shopping_cart"></span>
+                {/***** only addproduct + profile  for Admin  ******** */}
+                {role === "Admin" ? (
+                  <div className="col-6 col-md-4 order-3 order-md-3 text-right">
+                    <div className="site-top-icons">
+                      <ul>
+                        <li>
+                          <Link to="/adminproduct">
+                            <button className="btn btn-sm btn-primary mr-5">
+                              Add product
+                            </button>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/profile"
+                            onClick={() => get_User_Profile()}
+                          >
+                            <span className="icon icon-person"></span>
+                          </Link>
+                        </li>
 
-                          <span type="number" className="count">
-                            {nb_articles
-                              .map(el => el.qte)
-                              .reduce((a, b) => a + b, 0)}
-                          </span>
-                        </Link>
-                      </li>
-                      <li className="d-inline-block d-md-none ml-md-0">
-                        <Link
-                          to="#"
-                          className="site-menu-toggle js-menu-toggle"
-                        >
-                          <span className="icon-menu"></span>
-                        </Link>
-                      </li>
-                    </ul>
+                        <li className="d-inline-block d-md-none ml-md-0">
+                          <Link
+                            to="#"
+                            className="site-menu-toggle js-menu-toggle"
+                          >
+                            <span className="icon-menu"></span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  //***** only profile  + favori + cart for user  ******** */}
+
+                  <div className="col-6 col-md-4 order-3 order-md-3 text-right">
+                    <div className="site-top-icons">
+                      <ul>
+                        <li>
+                          <Link
+                            to="/profile"
+                            onClick={() => get_User_Profile()}
+                          >
+                            <span className="icon icon-person"></span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="#">
+                            <span className="icon icon-heart-o"></span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/cart" className="site-cart">
+                            <span className="icon icon-shopping_cart"></span>
+
+                            <span type="number" className="count">
+                              {nb_articles
+                                .map(el => el.qte)
+                                .reduce((a, b) => a + b, 0)}
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="d-inline-block d-md-none ml-md-0">
+                          <Link
+                            to="#"
+                            className="site-menu-toggle js-menu-toggle"
+                          >
+                            <span className="icon-menu"></span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          <nav
-            className="site-navigation text-right text-md-center"
-            role="navigation"
-          >
-            <div className="container">
-              <ul className="site-menu js-clone-nav d-none d-md-block">
-                <li className="has-children active">
-                  <Link to="/">Home</Link>
-                  <ul className="dropdown">
-                    <li>
-                      <Link to="#">Menu One</Link>
-                    </li>
-                    <li>
-                      <Link to="#">Menu Two</Link>
-                    </li>
-                    <li>
-                      <Link to="#">Menu Three</Link>
-                    </li>
-                    <li className="has-children">
-                      <Link to="#">Sub Menu</Link>
-                      <ul className="dropdown">
-                        <li>
-                          <Link to="#">Menu One</Link>
-                        </li>
-                        <li>
-                          <Link to="#">Menu Two</Link>
-                        </li>
-                        <li>
-                          <Link to="#">Menu Three</Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li className="has-children">
-                  <Link to="/">Admin</Link>
-                  <ul className="dropdown">
-                    <li>
-                      <Link to="/listofusers">List Of Users</Link>
-                    </li>
-                    <li>
-                      <Link to="/listoforders">list Of Orders</Link>
-                    </li>
-                    <li>
-                      <Link to="#">category</Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link to="shopping">Shop</Link>
-                </li>
-                <li>
-                  <Link to="/fds">Admin</Link>
-                </li>
-                <li>
-                  <Link to="signin">signin</Link>
-                </li>
-                <li>
-                  <Link to="signup">signup</Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+
+          {/* *********** start Nav Bar of User ***********************/}
+          {role === "user" ? (
+            <nav
+              className="site-navigation text-right text-md-center"
+              role="navigation"
+            >
+              <div className="container">
+                <ul className="site-menu js-clone-nav d-none d-md-block">
+                  <li>
+                    <Link to="/shopping">Shop</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/signin">signin</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">signup</Link>
+                  </li>
+                  <li>
+                    <Link to="/" onClick={LogOut}>
+                      Deconnection
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          ) : (
+            /* *********** start Nav Bar For Admin ***********************/
+            <nav
+              className="site-navigation text-right text-md-center"
+              role="navigation"
+            >
+              <div className="container">
+                <ul className="site-menu js-clone-nav d-none d-md-block">
+                  <li className="has-children active">
+                    <Link to="/">Home</Link>
+                    <ul className="dropdown">
+                      <li>
+                        <Link to="#">Menu One</Link>
+                      </li>
+                      <li>
+                        <Link to="#">Menu Two</Link>
+                      </li>
+                      <li>
+                        <Link to="#">Menu Three</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="has-children">
+                    <Link to="/">details</Link>
+                    <ul className="dropdown">
+                      <li>
+                        <Link to="/listofusers">List Of Users</Link>
+                      </li>
+                      <li>
+                        <Link to="/listoforders">list Of Orders</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <Link to="/shopping">Shop</Link>
+                  </li>
+
+                  <li>
+                    <Link to="/signin">signin</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">signup</Link>
+                  </li>
+                  <li>
+                    <Link to="/" onClick={LogOut}>
+                      Deconnection
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          )}
         </header>
       </div>
     </Fragment>
@@ -146,7 +197,8 @@ const NAV = ({ nb_articles, get_User_Profile }) => {
 
 const mapstatetoprops = state => {
   return {
-    nb_articles: state.panier_Reducer
+    nb_articles: state.panier_Reducer,
+    role: state.sign_Reducer.user.role
   };
 };
-export default connect(mapstatetoprops, { get_User_Profile })(NAV);
+export default connect(mapstatetoprops, { get_User_Profile, LogOut })(NAV);
