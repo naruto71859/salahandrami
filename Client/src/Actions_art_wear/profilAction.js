@@ -2,10 +2,11 @@ import setAuthToken from "../Utils/setAuthToken";
 import axios from "axios";
 import { ALL_USERS, AUTH_ERROR } from "./Const";
 import { get_User_Profile } from "./signAction";
+import { set_Alert } from "./alertAction";
 
 /***** ADD/Modify Profile ************ */
 
-export const add_Or_Modify_Profil= obj => async dispatch => {
+export const add_Or_Modify_Profil = obj => async dispatch => {
   let config = {
     headers: { "Content-Type": "application/json" }
   };
@@ -15,8 +16,21 @@ export const add_Or_Modify_Profil= obj => async dispatch => {
   try {
     await axios.post("/artwear/profile", body, config);
     console.log("you modify ur profile successfull ");
+    // dispatch(get_User_Profile());
+    dispatch(
+      set_Alert({
+        msg: " thank you for ur participation",
+        alertType: "success"
+      })
+    );
   } catch (err) {
-    console.log(err);
+    console.log(err)
+    // let errors = err.response.data.errors;
+
+    // if (errors)
+    //   errors.map(el =>
+    //     dispatch(set_Alert({ msg: el.msg, alertType: "danger" }))
+    //   );
   }
 };
 

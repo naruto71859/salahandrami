@@ -3,8 +3,15 @@ import { get_User_Profile } from "../Actions_art_wear/signAction";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { add_Or_Modify_Profil } from "../Actions_art_wear/profilAction";
+import { set_Alert } from "../Actions_art_wear/alertAction";
+import Alert from "./layout/Alert";
 
-const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
+const Profile = ({
+  get_User_Profile,
+  add_Or_Modify_Profil,
+  set_Alert,
+  user
+}) => {
   useEffect(() => {
     get_User_Profile();
   }, []);
@@ -23,6 +30,8 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
 
   const onSubmit = e => {
     e.preventDefault();
+
+    set_Alert({ msg: "this is a test ", alertType: "success" });
     add_Or_Modify_Profil({ ...formData });
   };
 
@@ -32,12 +41,13 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
         <div className="bg-light py-3">
           <div className="container">
             <div className="row">
-              <div className="col-md-12 mb-0">
-                <Link to="index">Home</Link>{" "}
-                <span className="mx-2 mb-0">/</span> <Link to="cart">Cart</Link>{" "}
-                <span className="mx-2 mb-0">/</span>{" "}
+              <div className="col-md-4 mb-0">
+                <Link to="index">Home</Link>
+                <span className="mx-2 mb-0">/</span> <Link to="cart">Cart</Link>
+                <span className="mx-2 mb-0">/</span>
                 <strong className="text-black">Checkout</strong>
               </div>
+              <Alert />
             </div>
           </div>
         </div>
@@ -77,9 +87,8 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
                             Last Name <span className="text-danger">*</span>
                           </label>
                           <input
-                           
-                           onChange={onchange} 
-                           value={lastname}
+                            onChange={onchange}
+                            value={lastname}
                             type="text"
                             className="form-control"
                             id="c_lname"
@@ -116,7 +125,7 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
                             htmlFor="c_state_country"
                             className="text-black"
                           >
-                            State / Country{" "}
+                            State / Country
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -172,7 +181,7 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
                       <div className="form-group row">
                         <div className="col-md-12">
                           <label htmlFor="c_address" className="text-black">
-                            autre parametre{" "}
+                            autre parametre
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -185,13 +194,12 @@ const Profile = ({ get_User_Profile, add_Or_Modify_Profil, user }) => {
                         </div>
                       </div>
                       <div className=" row  justify-content-around ">
-                   
-                          <input
-                            type="submit"
-                            className="my-2 btn btn-warning btn-sm "
-                            value="Create Profile"
-                          />
-                     
+                        <input
+                          type="submit"
+                          className="my-2 btn btn-warning btn-sm "
+                          value="Create Profile"
+                        />
+
                         <Link to="/shopping">
                           <button className="my-2 btn btn-sm btn-primary">
                             Back to shop
@@ -219,5 +227,6 @@ const mapstatetoprops = state => {
 };
 export default connect(mapstatetoprops, {
   get_User_Profile,
-  add_Or_Modify_Profil
+  add_Or_Modify_Profil,
+  set_Alert
 })(Profile);

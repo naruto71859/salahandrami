@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { get_User_Profile, LogOut } from "../../Actions_art_wear/signAction";
 
-const NAV = ({ nb_articles, role, get_User_Profile, LogOut }) => {
+const NAV = ({
+  nb_articles,
+  role,
+  get_User_Profile,
+  LogOut,
+  isAuthenticated
+}) => {
   useEffect(() => {
     get_User_Profile();
   }, []);
@@ -159,17 +165,20 @@ const NAV = ({ nb_articles, role, get_User_Profile, LogOut }) => {
                       </li>
                     </ul>
                   </li>
-                  <li className="has-children">
-                    <Link to="/">details</Link>
-                    <ul className="dropdown">
-                      <li>
-                        <Link to="/listofusers">List Of Users</Link>
-                      </li>
-                      <li>
-                        <Link to="/listoforders">list Of Orders</Link>
-                      </li>
-                    </ul>
-                  </li>
+                  {isAuthenticated && (
+                    <li className="has-children">
+                      <Link to="/">details</Link>
+                      <ul className="dropdown">
+                        <li>
+                          <Link to="/listofusers">List Of Users</Link>
+                        </li>
+                        <li>
+                          <Link to="/listoforders">list Of Orders</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
+
                   <li>
                     <Link to="/shopping">Shop</Link>
                   </li>
@@ -198,7 +207,8 @@ const NAV = ({ nb_articles, role, get_User_Profile, LogOut }) => {
 const mapstatetoprops = state => {
   return {
     nb_articles: state.panier_Reducer,
-    role: state.sign_Reducer.user.role
+    role: state.sign_Reducer.user.role,
+    isAuthenticated: state.sign_Reducer.isAuthenticated
   };
 };
 export default connect(mapstatetoprops, { get_User_Profile, LogOut })(NAV);

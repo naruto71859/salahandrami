@@ -67,11 +67,11 @@ router.post(
 router.put(
   "/product/:id",
 
-  // auth,
+  auth,
 
-  // chekingCreatingProduct(),
+  chekingCreatingProduct(),
 
-  // validateCheck,
+  validateCheck,
 
   async (req, res) => {
     try {

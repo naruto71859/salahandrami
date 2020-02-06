@@ -14,14 +14,10 @@ exports.checkingmodify = () => [
 
 exports.chekingCreatingProduct = () => [
   check("name", "the Name of the product is required ").notEmpty(),
-  check("price", "the price of the product is required ")
-    .notEmpty()
-    .isNumeric(),
+  check("price", "the price must be a number ").isNumeric(),
+  check("price", "the price of the product is required ").notEmpty(),
   check("gender", "the gender of the product is required ").notEmpty(),
-  // check("age", "the Age of the user of the product is required ").notEmpty(),
-  // check("saison", "the Saison of the product is required ").notEmpty(),
   check("category", "the Category of the product is required ").notEmpty()
-  // check("color", "the Color of the product is required ").notEmpty(),
 ];
 
 exports.checking_create_modif_profile = () => [

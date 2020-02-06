@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { add_product_to_db } from "../Actions_art_wear/ProdcutAction";
+import Alert from "./layout/Alert";
+import { set_Alert } from "../Actions_art_wear/alertAction";
 const AdminAddProduct = ({ add_product_to_db }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -17,7 +19,7 @@ const AdminAddProduct = ({ add_product_to_db }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-
+    
     add_product_to_db({ name, category, price, gender, color, saison });
   };
   return (
@@ -28,7 +30,8 @@ const AdminAddProduct = ({ add_product_to_db }) => {
             <div className="row">
               <div className="col-md-12 mb-0">
                 <Link to="index">Home</Link>
-                <span className="mx-2 mb-0">/</span> <Link to="cart">Admin</Link>
+                <span className="mx-2 mb-0">/</span>{" "}
+                <Link to="cart">Admin</Link>
                 <span className="mx-2 mb-0">/</span>
                 <strong className="text-black">Add product</strong>
               </div>
@@ -49,6 +52,8 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                     Import Photo
                   </button>
                 </div>
+
+                <Alert />
               </div>
 
               {/* --------------- End  Product Info ---------------------------------  */}

@@ -5,18 +5,18 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   USER_LOADED,
-  AUTH_ERROR,
-  
+  AUTH_ERROR
 } from "./Const";
 
 import setAuthToken from "../Utils/setAuthToken";
+import { set_Alert } from "./alertAction";
 
 export const register = ({ name, email, password }) => async dispatch => {
   let config = {
     headers: { "Content-Type": "application/json" }
   };
   let body = JSON.stringify({ name, email, password }); // we are sending the  body(as json) + the header(type json) to the backend
-  console.log(body);
+  
   try {
     let res = await axios.post("/artwear/signup", body, config); //sent
     console.log("we access to the register route");
@@ -28,6 +28,11 @@ export const register = ({ name, email, password }) => async dispatch => {
     dispatch(get_User_Profile());
   } catch (err) {
     console.log("this is register fail ");
+    let errors = err.response.data.errors;
+    if (errors)
+      errors.map(el =>
+        dispatch(set_Alert({ msg: el.msg, alertType: "danger" }))
+      );
     dispatch({
       type: REGISTER_FAIL
     });
@@ -50,6 +55,12 @@ export const Log_in = ({ email, password }) => async dispatch => {
     dispatch(get_User_Profile());
   } catch (err) {
     console.log(err);
+    let errors = err.response.data.errors;
+
+    if (errors)
+      errors.map(el =>
+        dispatch(set_Alert({ msg: el.msg, alertType: "danger" }))
+      );
     dispatch({ type: LOGIN_FAIL });
   }
 };
@@ -58,10 +69,7 @@ export const LogOut = () => dispatch => {
   dispatch({ type: LOGIN_FAIL });
 };
 
-
-
 /*********************   Profiles ******************************************* */
-
 
 export const get_User_Profile = () => async dispatch => {
   if (localStorage.token) setAuthToken(localStorage.token);

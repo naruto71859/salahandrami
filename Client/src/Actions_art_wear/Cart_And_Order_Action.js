@@ -8,6 +8,7 @@ import {
 } from "./Const";
 import axios from "axios";
 import setAuthToken from "../Utils/setAuthToken";
+import { set_Alert } from "./alertAction";
 
 /* **************  Cart ACTION  ******************  */
 
@@ -33,9 +34,22 @@ export const add_Order_To_Db = array => async dispatch => {
     console.log("we access post order route ");
 
     dispatch({ type: CLEAR_CART_STATE });
+    dispatch(
+      set_Alert({
+        msg: "your Order has been send successfully  ",
+        alertType: "success"
+      })
+    );
   } catch (err) {
     console.log("we fail to post the order");
-    console.log(err);
+    let errors = err.response.data.errors;
+
+    dispatch(
+      set_Alert({
+        msg: "some thing happened please contact us ",
+        alertType: "danger"
+      })
+    );
   }
 };
 

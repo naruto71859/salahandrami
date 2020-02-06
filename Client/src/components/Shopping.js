@@ -1,13 +1,15 @@
 import React, { Fragment, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { connect } from "react-redux";
-import { searchAll } from "../Actions_art_wear/searchAction";
+import { searchAll, searchCategory, searchGender } from "../Actions_art_wear/searchAction";
 import AdminProductCard from "./AdminProductCard";
+import { Link } from "react-router-dom";
 
-const Shopping = ({ products = [], role, searchAll }) => {
+const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender }) => {
   useEffect(() => {
     searchAll();
   }, []);
+
   return (
     <Fragment>
       <div className="site-wrap">
@@ -15,7 +17,7 @@ const Shopping = ({ products = [], role, searchAll }) => {
           <div className="container">
             <div className="row">
               <div className="col-md-12 mb-0">
-                <a href="index.html">Home</a>{" "}
+                <Link to="/index.html">Home</Link>{" "}
                 <span className="mx-2 mb-0">/</span>
                 <strong className="text-black">Shop</strong>
               </div>
@@ -48,15 +50,15 @@ const Shopping = ({ products = [], role, searchAll }) => {
                           className="dropdown-menu"
                           aria-labelledby="dropdownMenuOffset"
                         >
-                          <a className="dropdown-item" href="#!">
+                          <Link className="dropdown-item" to="/#!">
                             Men
-                          </a>
-                          <a className="dropdown-item" href="#!">
+                          </Link>
+                          <Link className="dropdown-item" to="/#!">
                             Women
-                          </a>
-                          <a className="dropdown-item" href="#!">
+                          </Link>
+                          <Link className="dropdown-item" to="/#!">
                             Children
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="btn-group">
@@ -72,64 +74,127 @@ const Shopping = ({ products = [], role, searchAll }) => {
                           className="dropdown-menu"
                           aria-labelledby="dropdownMenuReference"
                         >
-                          <a className="dropdown-item" href="#!">
+                          <Link className="dropdown-item" to="/#!">
                             Relevance
-                          </a>
-                          <a className="dropdown-item" href="#!">
+                          </Link>
+                          <Link className="dropdown-item" to="/#!">
                             Name, A to Z
-                          </a>
-                          <a className="dropdown-item" href="#!">
+                          </Link>
+                          <Link className="dropdown-item" to="/#!">
                             Name, Z to A
-                          </a>
+                          </Link>
                           <div className="dropdown-divider"></div>
-                          <a className="dropdown-item" href="#!">
+                          <Link className="dropdown-item" to="/#!">
                             Price, low to high
-                          </a>
-                          <a className="dropdown-item" href="#!">
+                          </Link>
+                          <Link className="dropdown-item" to="/#!">
                             Price, high to low
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="row mb-5">
-                  {products.map((el, i) =>
-                    role === "user" ? (
-                      <ProductCard product={el} key={i} />
-                    ) : (
-                      <AdminProductCard product={el} key={i} />
-                    )
-                  )}
-                </div>
+                {!products || products.length === 0 ? (
+                  <div className="container">
+                    <div className="row">
+                      <div className="col">
+                        <div
+                          className="alert alert-success alert-dismissable fade show"
+                          role="alert"
+                        >
+                          <h2 className="alert-heading text-center ">
+                            There is no Orders Yet
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="row mb-5">
+                    {products.map((el, i) =>
+                      role === "user" ? (
+                        <ProductCard product={el} key={i} />
+                      ) : (
+                        <AdminProductCard product={el} key={i} />
+                      )
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="col-md-3 order-1 mb-5 mb-md-0">
+                {/* ********** SEARCH BY CATEGORY  ********* */}
+
                 <div className="border p-4 rounded mb-4">
                   <h3 className="mb-3 h6 text-uppercase text-black d-block">
                     Categories
                   </h3>
                   <ul className="list-unstyled mb-0">
                     <li className="mb-1">
-                      <a href="#!" className="d-flex">
-                        <span>Men</span>
+                      <Link to="#pull" className="d-flex">
+                        <span
+                          onClick={() => searchCategory({ category: "pull" })}
+                        >
+                          pull
+                        </span>
                         <span className="text-black ml-auto">(2,220)</span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="mb-1">
-                      <a href="#!" className="d-flex">
-                        <span>Women</span>
+                      <Link to="#jean" className="d-flex">
+                        <span
+                          onClick={() => searchCategory({ category: "jean" })}
+                        >
+                          jean
+                        </span>
                         <span className="text-black ml-auto">(2,550)</span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="mb-1">
-                      <a href="#!" className="d-flex">
-                        <span>Children</span>
+                      <Link to="#casquette" className="d-flex">
+                        <span
+                          onClick={() =>
+                            searchCategory({ category: "casquette" })
+                          }
+                        >
+                          casquette
+                        </span>
                         <span className="text-black ml-auto">(2,124)</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
+
+                {/* ********** END OF SEARCH BY CATEGORY  ********* */}
+
+                {/* ********** SEARCH BY GENDER  ********* */}
+                <div className="border p-4 rounded mb-4">
+                  <h3 className="mb-3 h6 text-uppercase text-black d-block">
+                    Genders
+                  </h3>
+                  <ul className="list-unstyled mb-0">
+                    <li className="mb-1">
+                      <Link to="#Men" className="d-flex">
+                        <span onClick={()=>searchGender({gender: "men"})}>Men</span>
+                        <span className="text-black ml-auto">(2,220)</span>
+                      </Link>
+                    </li>
+                    <li className="mb-1">
+                      <Link to="#women" className="d-flex">
+                        <span>Women</span>
+                        <span className="text-black ml-auto">(2,550)</span>
+                      </Link>
+                    </li>
+                    <li className="mb-1">
+                      <Link to="#children" className="d-flex">
+                        <span>Children</span>
+                        <span className="text-black ml-auto">(2,124)</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                {/* ********** END OF  SEARCH BY CATEGORY  ********* */}
 
                 <div className="border p-4 rounded mb-4">
                   <div className="mb-4">
@@ -168,34 +233,34 @@ const Shopping = ({ products = [], role, searchAll }) => {
                     <h3 className="mb-3 h6 text-uppercase text-black d-block">
                       Color
                     </h3>
-                    <a
-                      href="#!"
+                    <Link
+                      to="/#!"
                       className="d-flex color-item align-items-center"
                     >
                       <span className="bg-danger color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Red (2,429)</span>
-                    </a>
-                    <a
-                      href="#!"
+                    </Link>
+                    <Link
+                      to="/#!"
                       className="d-flex color-item align-items-center"
                     >
                       <span className="bg-success color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Green (2,298)</span>
-                    </a>
-                    <a
-                      href="#!"
+                    </Link>
+                    <Link
+                      to="/#!"
                       className="d-flex color-item align-items-center"
                     >
                       <span className="bg-info color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Blue (1,075)</span>
-                    </a>
-                    <a
-                      href="#!"
+                    </Link>
+                    <Link
+                      to="/#!"
                       className="d-flex color-item align-items-center"
                     >
                       <span className="bg-primary color d-inline-block rounded-circle mr-2"></span>
                       <span className="text-black">Purple (1,075)</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -215,7 +280,7 @@ const Shopping = ({ products = [], role, searchAll }) => {
                       data-aos="fade"
                       data-aos-delay=""
                     >
-                      <a className="block-2-item" href="#!">
+                      <Link className="block-2-item" to="/#!">
                         <figure className="image">
                           <img
                             src="images/women.jpg"
@@ -227,14 +292,14 @@ const Shopping = ({ products = [], role, searchAll }) => {
                           <span className="text-uppercase">Collections</span>
                           <h3>Women</h3>
                         </div>
-                      </a>
+                      </Link>
                     </div>
                     <div
                       className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0"
                       data-aos="fade"
                       data-aos-delay="100"
                     >
-                      <a className="block-2-item" href="#!">
+                      <Link className="block-2-item" to="/#!">
                         <figure className="image">
                           <img
                             src="images/children.jpg"
@@ -246,14 +311,14 @@ const Shopping = ({ products = [], role, searchAll }) => {
                           <span className="text-uppercase">Collections</span>
                           <h3>Children</h3>
                         </div>
-                      </a>
+                      </Link>
                     </div>
                     <div
                       className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0"
                       data-aos="fade"
                       data-aos-delay="200"
                     >
-                      <a className="block-2-item" href="#!">
+                      <Link className="block-2-item" to="/#!">
                         <figure className="image">
                           <img
                             src="images/men.jpg"
@@ -265,7 +330,7 @@ const Shopping = ({ products = [], role, searchAll }) => {
                           <span className="text-uppercase">Collections</span>
                           <h3>Men</h3>
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -280,8 +345,10 @@ const Shopping = ({ products = [], role, searchAll }) => {
 
 const mapstatetoprops = state => {
   return {
-    products: state.search_Reducer,
+    products: state.search_Reducer.catalogue,
     role: state.sign_Reducer.user.role
   };
 };
-export default connect(mapstatetoprops, { searchAll })(Shopping);
+export default connect(mapstatetoprops, { searchAll, searchCategory, searchGender })(
+  Shopping
+);

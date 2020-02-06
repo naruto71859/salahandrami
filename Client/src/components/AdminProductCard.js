@@ -6,10 +6,13 @@ import {
 } from "../Actions_art_wear/ProdcutAction";
 import { Link } from "react-router-dom";
 const ProductCard = ({
+  isgender,
+  iscategory,
   delete_Product,
   get_one_product,
-  product: { name, price, _id, color, category }
+  product: { name, price, _id, gender, category }
 }) => {
+ 
   return (
     <Fragment>
       <div
@@ -43,7 +46,13 @@ const ProductCard = ({
                   edit
                 </Link>
                 <button
-                  onClick={() => delete_Product(_id)}
+                  onClick={() =>
+                    delete_Product(
+                      _id,
+                      { category, iscategory },
+                      { gender, isgender }
+                    )
+                  }
                   className="btn btn-danger btn-sm"
                 >
                   X
@@ -60,7 +69,9 @@ const ProductCard = ({
 };
 const mapstatetoprops = state => {
   return {
-    products: state.search_Reducer
+    products: state.search_Reducer,
+    isgender: state.search_Reducer.isgender,
+    iscategory: state.search_Reducer.iscategory
   };
 };
 

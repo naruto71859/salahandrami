@@ -17,10 +17,7 @@ router.post("/signup", checkingregister(), validateCheck, async (req, res) => {
   try {
     // ***************************** to handel the response  ****************************
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+ 
     const { name, email, password } = req.body;
 
     // ***************************** see if user exist ****************************

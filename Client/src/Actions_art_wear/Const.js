@@ -8,6 +8,8 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const SEARCH_ALL = "SEARCH_ALL";
 export const SEARCH_CATEGORIE = "SEARCH_CATEGORIE";
+export const SEARCH_GENDER = "SEARCH_GENDER";
+export const INPUT_SEARCH = "INPUT_SEARCH";
 
 export const USER_LOADED = "USER_LOADED";
 export const ALL_USERS = "ALL_USERS";
@@ -25,3 +27,7 @@ export const CLEAR_ALL_CART_ARTICLES = "CLEAR_ALL_CART_ARTICLES";
 export const GET_ONE_PRODUCT = "GET_ONE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const MODIFY_PRODUCT = "MODIFY_PRODUCT";
+
+export const SET_ALERT = "SET_ALERT";
+export const DISPLAY_ALERT = "DISPLAY_ALERT";
+

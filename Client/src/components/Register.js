@@ -2,7 +2,9 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { register } from "../Actions_art_wear/signAction";
-const Register = ({ register, isAuthenticated }) => {
+import { set_Alert } from "../Actions_art_wear/alertAction";
+import Alert from "./layout/Alert";
+const Register = ({ register, set_Alert, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,8 +17,9 @@ const Register = ({ register, isAuthenticated }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-
-    register({ name, email, password });
+    password === password2
+      ? register({ name, email, password })
+      : set_Alert({ msg: "password dont match", alertType: "danger" });
   };
 
   if (isAuthenticated) return <Redirect to="/" />;
@@ -24,6 +27,7 @@ const Register = ({ register, isAuthenticated }) => {
     <Fragment>
       <div className="site-wrap ">
         <div className="site-section ">
+          <Alert />
           <form className="container" onSubmit={e => onSubmit(e)}>
             <div className="row ">
               <div className="col-md-6 mb-5 mb-md-0 m-auto">
@@ -106,7 +110,9 @@ const Register = ({ register, isAuthenticated }) => {
                     />
 
                     <Link to="/signin">
-                      <button className="btn btn-sm btn-secondary">Login</button>
+                      <button className="btn btn-sm btn-secondary">
+                        Login
+                      </button>
                     </Link>
                   </div>
                 </div>
@@ -125,4 +131,4 @@ const mapstatetoprops = state => {
     isAuthenticated: state.sign_Reducer.isAuthenticated
   };
 };
-export default connect(mapstatetoprops, { register })(Register);
+export default connect(mapstatetoprops, { register, set_Alert })(Register);

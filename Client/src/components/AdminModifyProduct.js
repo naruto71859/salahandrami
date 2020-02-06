@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { modify_product } from "../Actions_art_wear/ProdcutAction";
+import Alert from "./layout/Alert";
 const AdminModifyProduct = ({ modify_product, product }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -51,6 +52,7 @@ const AdminModifyProduct = ({ modify_product, product }) => {
                     Import Photo
                   </button>
                 </div>
+                <Alert  />
               </div>
 
               {/* --------------- End  Product Info ---------------------------------  */}

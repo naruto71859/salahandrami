@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CartProduct from "./layout/CartProduct";
 import { get_User_Profile } from "../Actions_art_wear/signAction";
+import { set_Alert } from "../Actions_art_wear/alertAction";
+import Alert from "./layout/Alert";
 
-const Cart = ({ order = [], get_User_Profile }) => {
+const Cart = ({ order = [], get_User_Profile, set_Alert }) => {
   let [quantity, setquantity] = useState({ qte: 1 });
   let { qte } = quantity;
+
+  (order.length === 0 || !order) &&
+    set_Alert({ msg: "No order yet created", alertType: "warning" });
 
   return (
     <Fragment>
@@ -22,7 +27,7 @@ const Cart = ({ order = [], get_User_Profile }) => {
             </div>
           </div>
         </div>
-
+        <Alert />
         <div className="site-section">
           <div className="container">
             <div className="row mb-5">
@@ -116,8 +121,6 @@ const Cart = ({ order = [], get_User_Profile }) => {
                       <div className="col-md-12">
                         {/*----------------------------------------------------------  Checkout  -----------------> */}
                         <Link
-                          dataToggle="modal"
-                          dataTarget="#exampleModal"
                           to="checkout"
                           onClick={get_User_Profile}
                           className="btn btn-primary btn-lg py-3 btn-block"
@@ -135,19 +138,6 @@ const Cart = ({ order = [], get_User_Profile }) => {
           </div>
         </div>
       </div>
-
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div
-              className="alert alert-success alert-dismissable fade show"
-              role="alert"
-            >
-              <h2 className="alert-heading">This is an alert!</h2>
-            </div>
-          </div>
-        </div>
-      </div>
     </Fragment>
   );
 };
@@ -156,4 +146,4 @@ const mapstatetoprops = state => {
     order: state.panier_Reducer
   };
 };
-export default connect(mapstatetoprops, { get_User_Profile })(Cart);
+export default connect(mapstatetoprops, { get_User_Profile, set_Alert })(Cart);
