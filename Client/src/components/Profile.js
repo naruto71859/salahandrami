@@ -14,8 +14,9 @@ const Profile = ({
 }) => {
   useEffect(() => {
     get_User_Profile();
-  }, []);
-  console.log(user);
+  }, [get_User_Profile]);
+
+
   const [formData, setFormData] = useState({
     name: user.name,
     lastname: user.lastname,
@@ -24,14 +25,15 @@ const Profile = ({
     phonenumber: user.phonenumber,
     adress: user.adress
   });
+
   const { name, lastname, email, city, phonenumber, adress } = formData;
+  
   const onchange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
 
-    set_Alert({ msg: "this is a test ", alertType: "success" });
     add_Or_Modify_Profil({ ...formData });
   };
 

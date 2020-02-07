@@ -19,9 +19,10 @@ const AdminAddProduct = ({ add_product_to_db }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    
+
     add_product_to_db({ name, category, price, gender, color, saison });
   };
+  console.log("category", category);
   return (
     <Fragment>
       <div className="site-wrap">
@@ -73,13 +74,13 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                             name <span className="text-danger">*</span>
                           </label>
                           <input
-                            value={name}
                             onChange={onchange}
+                            value={name}
                             type="text"
                             className="form-control"
                             id="c_fname"
                             name="name"
-                            placeholder="name"
+                            placeholder="..."
                           />
                         </div>
 
@@ -89,15 +90,18 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                           <label htmlFor="c_lname" className="text-black">
                             category <span className="text-danger">*</span>
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={category}
-                            type="text"
-                            className="form-control"
-                            id="c_lname"
+
+                          <select
                             name="category"
-                            placeholder="category"
-                          />
+                            onChange={onchange}
+                            className="custom-select "
+                            defaultValue=""
+                          >
+                            <option value="">..</option>
+                            <option value="pull">pull</option>
+                            <option value="casquette">casquette</option>
+                            <option value="jean">jean</option>
+                          </select>
                         </div>
                       </div>
 
@@ -110,11 +114,12 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                           </label>
                           <input
                             onChange={onchange}
+                            value={price}
                             type="text"
                             className="form-control"
                             id="c_fname"
                             name="price"
-                            placeholder="price"
+                            placeholder="..."
                           />
                         </div>
 
@@ -124,15 +129,17 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                           <label htmlFor="c_lname" className="text-black">
                             gendre <span className="text-danger">*</span>
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={gender}
-                            type="text"
-                            className="form-control"
-                            id="c_lname"
+                          <select
                             name="gender"
-                            placeholder="gender"
-                          />
+                            onChange={onchange}
+                            className="custom-select "
+                            defaultValue=""
+                          >
+                            <option value="">..</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="children">Children</option>
+                          </select>
                         </div>
                       </div>
 
@@ -145,7 +152,6 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                             className="text-black"
                           >
                             color
-                            <span className="text-danger">*</span>
                           </label>
                           <input
                             onChange={onchange}
@@ -154,7 +160,7 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                             className="form-control"
                             id="c_state_country"
                             name="color"
-                            placeholder="color"
+                            placeholder="..."
                           />
                         </div>
 
@@ -162,22 +168,24 @@ const AdminAddProduct = ({ add_product_to_db }) => {
 
                         <div className="col-md-6">
                           <label htmlFor="c_postal_zip" className="text-black">
-                            saison <span className="text-danger">*</span>
+                            saison
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={saison}
-                            type="phone"
-                            className="form-control"
-                            id="c_postal_zip"
+                          <select
                             name="saison"
-                            placeholder="saison"
-                          />
+                            onChange={onchange}
+                            className="custom-select "
+                            defaultValue=""
+                          >
+                            <option value="">..</option>
+                            <option value="hiver">Hiver</option>
+                            <option value="summer">Summer</option>
+                          </select>
                         </div>
                       </div>
+                    </div>
 
-                      {/* ----------  other prop  ------  */}
-                      {/*    <div className="form-group row">
+                    {/* ----------  other prop  ------  */}
+                    {/*    <div className="form-group row">
 
                         <div className="col-md-6">
                           <label htmlFor="c_fname" className="text-black">
@@ -210,13 +218,12 @@ const AdminAddProduct = ({ add_product_to_db }) => {
                         </div>
                       </div>*/}
 
-                      <div className=" row  justify-content-around ">
-                        <input
-                          type="submit"
-                          className="btn btn-warning btn-sm "
-                          value="Create Product"
-                        />
-                      </div>
+                    <div className=" row  justify-content-around ">
+                      <input
+                        type="submit"
+                        className="btn btn-warning btn-sm "
+                        value="Create Product"
+                      />
                     </div>
                   </div>
                 </form>

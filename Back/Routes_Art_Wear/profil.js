@@ -52,21 +52,6 @@ router.get("/profils", auth, async (req, res) => {
 });
 
 /*                             
-                               @desc    delete one profile
-                               @access  private            */
-
-router.delete("/delete/:id", auth, async (req, res) => {
-  try {
-    let id = req.params.id;
-    console.log(req.body);
-    let profil = await User.findByIdAndDelete(id);
-    res.json(profil);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-/*                             
                                @desc    get all users by name
                                @access  private            */
 
@@ -79,4 +64,28 @@ router.get("/name", auth, async (req, res) => {
     console.log(error);
   }
 });
+
+/*                             
+                               @desc    Admin modify the role of the user
+                               @access  private            */
+
+router.put("/user/:id", auth, async (req, res) => {
+  let id = req.params.id;
+  let user = await User.findById(req.user.id);
+
+  try {
+    if (user.role !== "Admin") return res.json({ msg: "u are not authorized" });
+
+    let newuserrole = await User.findByIdAndUpdate(
+      id,
+      { $set: { ...req.body } },
+      { new: true }
+    );
+
+    return res.status(200).json(newuserrole);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;

@@ -4,7 +4,7 @@ import {
   GET_ALL_ORDERS,
   AUTH_ERROR,
   UPDATE_CART_ARTICLE,
-  DELETE_CART_PRODUCT
+  DELETE_CART_PRODUCT,
 } from "./Const";
 import axios from "axios";
 import setAuthToken from "../Utils/setAuthToken";
@@ -78,5 +78,22 @@ export const delete_Order = id => async dispatch => {
     dispatch({
       type: AUTH_ERROR
     });
+  }
+};
+export const admin_delete_Article_from_order = (
+  orderid,
+  articleid
+) => async dispatch => {
+  if (localStorage.token) setAuthToken(localStorage.token);
+  console.log('object')
+  try {
+    let res = await axios.delete(
+      `/artwear/orderid/${orderid}/articleid/${articleid}`
+    );
+    console.log("from action we access delete article from order");
+    console.log('res.data', res.data)
+    dispatch(get_All_Orders());
+  } catch (err) {
+    console.log(err);
   }
 };

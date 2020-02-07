@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { add_Or_Modify_Profil } from "../Actions_art_wear/profilAction";
@@ -13,34 +13,31 @@ const CheckOut = ({
   user,
   order
 }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
-    email: "",
-    city: "",
-    phonenumber: "",
-    adress: ""
-  });
-  console.log("user", user);
-  const { name, lastname, email, city, phonenumber, adress } = formData;
+  useEffect(() => {});
 
+  const [formData, setFormData] = useState({
+    name: user.name,
+    lastname: user.lastname,
+    email: user.email,
+    city: user.city,
+    phonenumber: user.phonenumber,
+    adress: user.adress,
+    formIsValid: false
+  });
+  const {
+    name,
+    lastname,
+    email,
+    city,
+    phonenumber,
+    adress,
+    formIsValid
+  } = formData;
+  console.log("name", city);
   const onchange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const verifyingOrderandForm = (validform, validorder) => {
-    // return city === ""
-    //   ? set_Alert({
-    //       msg: "pls enter ur city where u live",
-    //       alertType: "danger"
-    //     })
-    //   : phonenumber === ""
-    //   ? set_Alert({ msg: "pls enter ur phonenumber", alertType: "danger" })
-    //   : !validorder
-    //   ? null
-    //   : validform()(!validorder)
-    //   ? null
-    //   : validorder();
-    console.log('city', city)
+  let verifyForm = () => {
     if (city === "") {
       return set_Alert({
         msg: "pls enter ur city where u live",
@@ -51,20 +48,24 @@ const CheckOut = ({
         msg: "pls enter ur phonenumber",
         alertType: "danger"
       });
-    } else {
-      console.log("qsfsqfsqf")
-      validform();
-      if (!validorder) {
-        validorder();
-      }
-    }
+    } else setFormData({ ...formData, formIsValid: true });
   };
 
   const onSubmit = e => {
     e.preventDefault();
-    verifyingOrderandForm(add_Or_Modify_Profil({ ...formData }), null);
+
+    verifyForm();
+    setFormData({ ...formData, formIsValid: true });
+    if (formIsValid === true) add_Or_Modify_Profil({ ...formData });
   };
 
+  const modify_profile_and_sending_order = () => {
+    verifyForm();
+    if (city && phonenumber) setFormData({ ...formData, formIsValid: true });
+    else return;
+    add_Or_Modify_Profil({ ...formData });
+    add_Order_To_Db(order);
+  };
   return (
     <Fragment>
       <div className="site-wrap">
@@ -114,7 +115,7 @@ const CheckOut = ({
                             className="form-control"
                             id="c_fname"
                             name="name"
-                            placeholder="..."
+                            // placeholder="..."
                           />
                         </div>
 
@@ -250,7 +251,7 @@ const CheckOut = ({
                 </form>
               </div>
 
-              {/* --------------- startForm Profile component ---------------------------------  */}
+              {/* --------------- end Form Profile component ---------------------------------  */}
 
               {/* --------------- Confirm order component ---------------------------------  */}
 
@@ -260,10 +261,13 @@ const CheckOut = ({
                     <h2 className="h3 mb-3 text-black">Your Order</h2>
                     <div className="p-3 p-lg-5 border">
                       <table className="table site-block-order-table mb-5">
-                        <tbody>
+                        <thead>
                           <tr>
-                            <td>Product</td>   <tbody>
-                          {/* ******* mapping the array of product *******  */}
+                            <th>Product</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                           {order.map((el, i) => (
                             <tr key={i}>
                               <td>
@@ -273,12 +277,7 @@ const CheckOut = ({
                               <td>${el.qte * el.price}.00</td>
                             </tr>
                           ))}
-                         
-                        </tbody>
-                          </tr>
-                          <tr>
-                            <td>Total</td>
-                             {/* ******* calculating the total sum to pay  *******  */}
+
                           <tr>
                             <td className="text-black font-weight-bold">
                               <strong>Cart Subtotal</strong>
@@ -288,7 +287,7 @@ const CheckOut = ({
                               {order
                                 .map(el => el.qte * el.price)
                                 .reduce((a, b) => a + b, 0)}
-                              .00 
+                              .00
                             </td>
                           </tr>
                           <tr>
@@ -305,20 +304,13 @@ const CheckOut = ({
                               </strong>
                             </td>
                           </tr>
-                          </tr>
                         </tbody>
-
-                     
                       </table>
+
                       {/* ******* sending the order to the DB  *******  */}
                       <div className="form-group">
                         <button
-                          onClick={() => {
-                            verifyingOrderandForm(
-                              add_Or_Modify_Profil({ ...formData }),
-                              add_Order_To_Db(order)
-                            );
-                          }}
+                          onClick={() => modify_profile_and_sending_order()}
                           className="btn btn-primary btn-lg py-3 btn-block"
                         >
                           Place Order
@@ -332,7 +324,7 @@ const CheckOut = ({
               {/* --------------- end Confirm order  ---------------------------------  */}
             </div>
           </div>
-          )}
+          )
         </div>
       </div>
     </Fragment>

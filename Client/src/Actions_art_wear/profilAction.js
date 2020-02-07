@@ -1,7 +1,6 @@
 import setAuthToken from "../Utils/setAuthToken";
 import axios from "axios";
 import { ALL_USERS, AUTH_ERROR } from "./Const";
-import { get_User_Profile } from "./signAction";
 import { set_Alert } from "./alertAction";
 
 /***** ADD/Modify Profile ************ */
@@ -24,7 +23,7 @@ export const add_Or_Modify_Profil = obj => async dispatch => {
       })
     );
   } catch (err) {
-    console.log(err)
+    console.log(err);
     // let errors = err.response.data.errors;
 
     // if (errors)
@@ -59,6 +58,7 @@ export const Admin_get_all_Users_Profile = () => async dispatch => {
 export const Admin_delete_User_Profile = id => async dispatch => {
   if (localStorage.token) setAuthToken(localStorage.token);
   try {
+
     await axios.delete(`/artwear/user/${id}`);
     dispatch(Admin_get_all_Users_Profile());
   } catch (err) {
@@ -71,36 +71,20 @@ export const Admin_delete_User_Profile = id => async dispatch => {
 
 /***** Modify the role of the user ************ */
 
-export const Admin_modify_Role_User = id => async dispatch => {
+export const Admin_modify_Role_User = (obj, id) => async dispatch => {
   if (localStorage.token) setAuthToken(localStorage.token);
   try {
     let config = {
       headers: { "Content-Type": "application/json" }
     };
-    let body = JSON.stringify(id);
+    let body = JSON.stringify(obj);
     await axios.put(`/artwear/user/${id}`, body, config);
-    dispatch(Admin_get_all_Users_Profile());
+    console.log("we modify the role ");
+    // dispatch role changing is state is missing
   } catch (err) {
-    console.log("we fail to delete the users ");
+    console.log("we fail to modifythe role the users ");
     dispatch({
       type: AUTH_ERROR
     });
   }
 };
-
-// export const modif_My_profile = obj => async dispatch => {
-//   if (localStorage.token) setAuthToken(localStorage.token);
-//   try {
-//     let config = {
-//       headers: { "Content-Type": "application/json" }
-//     };
-//     let body = JSON.stringify(obj);
-//     await axios.put(`/artwear/modify/`, body, config);
-//     dispatch(get_User_Profile());
-//   } catch (err) {
-//     console.log("we fail to modift ur profile ");
-//     // dispatch({
-//     //   type: AUTH_ERROR
-//     // });
-//   }
-// };

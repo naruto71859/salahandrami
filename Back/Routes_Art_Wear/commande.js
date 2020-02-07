@@ -11,7 +11,7 @@ router.post("/order", auth, async (req, res) => {
   /* **************  we search if the user has already a order  ***************** */
   let user = await User.findById(req.user.id, "-password");
   let verifOrder = await Order.findOne({ user: req.user.id });
-  console.log(verifOrder);
+  console.log(user);
   console.log("req.user.id", req.user.id);
   try {
     if (verifOrder) {
@@ -27,7 +27,7 @@ router.post("/order", auth, async (req, res) => {
         { new: true }
       );
 
-      return res.status(200).json( { msg : " u have updatedur Order"});
+      return res.status(200).json({ msg: " u have updatedur Order" });
     }
 
     /* **************  if the first time we save the order  ***************** */
@@ -36,12 +36,11 @@ router.post("/order", auth, async (req, res) => {
       user: req.user.id,
       Userinformation: { name: user.name, email: user.email },
       Articles: req.body
-
     });
 
     await order.save();
 
-    res.status(200).json({ msg : " ur order has been sent"});
+    res.status(200).json({ msg: " ur order has been sent" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "some this wrong with server " });
@@ -79,4 +78,32 @@ router.delete("/order/:id", auth, async (req, res) => {
     res.status(500).json({ msg: " we failed to delete the order" });
   }
 });
+
+router.delete(
+  "/orderid/:orderid/articleid/:articleid",
+  auth,
+  async (req, res) => {
+    try {
+      let orderID = req.params.orderid;
+
+      let articleID = req.params.articleid;
+
+      let order = await Order.findById(orderID);
+
+      let articles = order.Articles.filter(el => el._id !== articleID);
+
+      let result = await Order.findByIdAndUpdate(
+        orderID,
+        { $set: { Articles: articles } },
+        {
+          new: true
+        }
+      );
+      res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 module.exports = router;

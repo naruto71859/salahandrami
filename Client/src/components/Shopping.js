@@ -1,14 +1,25 @@
 import React, { Fragment, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { connect } from "react-redux";
-import { searchAll, searchCategory, searchGender } from "../Actions_art_wear/searchAction";
+import {
+  searchAll,
+  searchCategory,
+  searchGender
+} from "../Actions_art_wear/searchAction";
 import AdminProductCard from "./AdminProductCard";
 import { Link } from "react-router-dom";
 
-const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender }) => {
+const Shopping = ({
+  isAuthenticated,
+  products = [],
+  role,
+  searchAll,
+  searchCategory,
+  searchGender
+}) => {
   useEffect(() => {
     searchAll();
-  }, []);
+  }, [searchAll]);
 
   return (
     <Fragment>
@@ -95,6 +106,8 @@ const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender
                     </div>
                   </div>
                 </div>
+                {/*********** Alert *************************** */}
+
                 {!products || products.length === 0 ? (
                   <div className="container">
                     <div className="row">
@@ -111,12 +124,13 @@ const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender
                     </div>
                   </div>
                 ) : (
+                  //{/*********** End Alert *************************** */}
                   <div className="row mb-5">
                     {products.map((el, i) =>
-                      role === "user" ? (
-                        <ProductCard product={el} key={i} />
-                      ) : (
+                      role === "Admin" && isAuthenticated ? (
                         <AdminProductCard product={el} key={i} />
+                      ) : (
+                        <ProductCard product={el} key={i} />
                       )
                     )}
                   </div>
@@ -176,19 +190,27 @@ const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender
                   <ul className="list-unstyled mb-0">
                     <li className="mb-1">
                       <Link to="#Men" className="d-flex">
-                        <span onClick={()=>searchGender({gender: "men"})}>Men</span>
+                        <span onClick={() => searchGender({ gender: "men" })}>
+                          Men
+                        </span>
                         <span className="text-black ml-auto">(2,220)</span>
                       </Link>
                     </li>
                     <li className="mb-1">
                       <Link to="#women" className="d-flex">
-                        <span>Women</span>
+                        <span onClick={() => searchGender({ gender: "women" })}>
+                          Women
+                        </span>
                         <span className="text-black ml-auto">(2,550)</span>
                       </Link>
                     </li>
                     <li className="mb-1">
                       <Link to="#children" className="d-flex">
-                        <span>Children</span>
+                        <span
+                          onClick={() => searchGender({ gender: "children" })}
+                        >
+                          Children
+                        </span>
                         <span className="text-black ml-auto">(2,124)</span>
                       </Link>
                     </li>
@@ -346,9 +368,12 @@ const Shopping = ({ products = [], role, searchAll, searchCategory, searchGender
 const mapstatetoprops = state => {
   return {
     products: state.search_Reducer.catalogue,
-    role: state.sign_Reducer.user.role
+    role: state.sign_Reducer.user.role,
+    isAuthenticated: state.sign_Reducer.isAuthenticated
   };
 };
-export default connect(mapstatetoprops, { searchAll, searchCategory, searchGender })(
-  Shopping
-);
+export default connect(mapstatetoprops, {
+  searchAll,
+  searchCategory,
+  searchGender
+})(Shopping);

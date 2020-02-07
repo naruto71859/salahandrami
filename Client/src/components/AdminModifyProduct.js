@@ -21,7 +21,7 @@ const AdminModifyProduct = ({ modify_product, product }) => {
 
     modify_product({ ...formData }, product._id);
   };
-
+  console.log("category", category);
   return (
     <Fragment>
       <div className="site-wrap">
@@ -52,7 +52,7 @@ const AdminModifyProduct = ({ modify_product, product }) => {
                     Import Photo
                   </button>
                 </div>
-                <Alert  />
+                <Alert />
               </div>
 
               {/* --------------- End  Product Info ---------------------------------  */}
@@ -88,15 +88,20 @@ const AdminModifyProduct = ({ modify_product, product }) => {
                           <label htmlFor="c_lname" className="text-black">
                             category <span className="text-danger">*</span>
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={category}
-                            type="text"
-                            className="form-control"
-                            id="c_lname"
+
+                          <select
                             name="category"
-                            placeholder={product.category}
-                          />
+                            onChange={onchange}
+                            class="custom-select "
+                            defaultValue={product.category}
+                          >
+                            <option value={product.category}>
+                              {product.category}
+                            </option>
+                            <option value="pull">pull</option>
+                            <option value="casquette">casquette</option>
+                            <option value="jean">jean</option>
+                          </select>
                         </div>
                       </div>
 
@@ -124,15 +129,19 @@ const AdminModifyProduct = ({ modify_product, product }) => {
                           <label htmlFor="c_lname" className="text-black">
                             gendre <span className="text-danger">*</span>
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={gender}
-                            type="text"
-                            className="form-control"
-                            id="c_lname"
+                          <select
                             name="gender"
-                            placeholder={product.gender}
-                          />
+                            onChange={onchange}
+                            class="custom-select "
+                            defaultValue={product.gender}
+                          >
+                            <option value={product.gender}>
+                              {product.gender}
+                            </option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="children">Children</option>
+                          </select>
                         </div>
                       </div>
 
@@ -145,7 +154,6 @@ const AdminModifyProduct = ({ modify_product, product }) => {
                             className="text-black"
                           >
                             color
-                            <span className="text-danger">*</span>
                           </label>
                           <input
                             onChange={onchange}
@@ -162,17 +170,20 @@ const AdminModifyProduct = ({ modify_product, product }) => {
 
                         <div className="col-md-6">
                           <label htmlFor="c_postal_zip" className="text-black">
-                            saison <span className="text-danger">*</span>
+                            saison
                           </label>
-                          <input
-                            onChange={onchange}
-                            value={saison}
-                            type="text"
-                            className="form-control"
-                            id="c_postal_zip"
+                          <select
                             name="saison"
-                            placeholder={product.saison}
-                          />
+                            onChange={onchange}
+                            class="custom-select "
+                            defaultValue={product.saison}
+                          >
+                            <option value={product.saison}>
+                              {product.saison}
+                            </option>
+                            <option value="hiver">Hiver</option>
+                            <option value="summer">Summer</option>
+                          </select>
                         </div>
                       </div>
 

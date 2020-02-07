@@ -14,15 +14,13 @@ import AdminAddProduct from "./components/AdminAddProduct";
 import AdminModifyProduct from "./components/AdminModifyProduct";
 import AdminListOfUsers from "./components/AdminListOfUsers";
 import AdminListOfOrders from "./components/AdminListOfOrders";
-import Allorders from "./test/Allorders";
 import Alert from "./components/layout/Alert";
 function App() {
   return (
     <BrowserRouter>
       <NAV />
-
+     
       <Switch>
-        <Route exact path="/allorder" component={Allorders} />
 
         <Route exact path="/adminproduct" component={AdminAddProduct} />
         <Route exact path="/modifyproduct" component={AdminModifyProduct} />

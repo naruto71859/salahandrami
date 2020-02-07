@@ -12,7 +12,7 @@ const NAV = ({
 }) => {
   useEffect(() => {
     get_User_Profile();
-  }, []);
+  }, [get_User_Profile]);
   return (
     <Fragment>
       <div className="site-wrap">
@@ -165,7 +165,7 @@ const NAV = ({
                       </li>
                     </ul>
                   </li>
-                  {isAuthenticated && (
+                  {role==='Admin' && (
                     <li className="has-children">
                       <Link to="/">details</Link>
                       <ul className="dropdown">

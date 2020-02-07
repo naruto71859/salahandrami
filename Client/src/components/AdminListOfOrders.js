@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import OrderCard from "./layout/OrderCard";
 import { get_All_Orders } from "../Actions_art_wear/Cart_And_Order_Action";
+import { set_Alert } from "../Actions_art_wear/alertAction";
 
-const AdminListOfUsers = ({ orders, get_All_Orders }) => {
+const AdminListOfUsers = ({ orders, get_All_Orders, set_Alert }) => {
   useEffect(() => {
     get_All_Orders();
-  }, []);
+  }, [get_All_Orders]);
 
   return (
     <Fragment>
@@ -26,23 +27,27 @@ const AdminListOfUsers = ({ orders, get_All_Orders }) => {
 
         <div className="site-section">
           <div className="container">
-            <div className="row mb-5">
-              {!orders || orders.length === 0 ? (
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div
-                        className="alert alert-success alert-dismissable fade show"
-                        role="alert"
-                      >
-                        <h2 className="alert-heading text-center ">
-                          There is no Orders Yet
-                        </h2>
-                      </div>
+            {/*********** Alert *************************** */}
+
+            {!orders || orders.length === 0 ? (
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <div
+                      className="alert alert-success alert-dismissable fade show"
+                      role="alert"
+                    >
+                      <h2 className="alert-heading text-center ">
+                        There is no Orders Yet
+                      </h2>
                     </div>
                   </div>
                 </div>
-              ) : (
+              </div>
+            ) : (
+              //***********  End Alert *************************** */
+
+              <div className="row mb-5">
                 <form className="col-md-12" method="post">
                   <div className="site-blocks-table">
                     <table className="table table-bordered">
@@ -55,19 +60,19 @@ const AdminListOfUsers = ({ orders, get_All_Orders }) => {
                           <th className="product-remove">Remove</th>
                         </tr>
                       </thead>
+
                       <tbody>
-                        {/************************************************************************************** */}
                         {orders.map((el, i) => (
                           <OrderCard order={el} key={i} />
                         ))}
-
-                        {/* ****************** */}
                       </tbody>
+                       
                     </table>
+
                   </div>
                 </form>
-              )}
-            </div>
+              </div>
+            )}
 
             <div className="row">
               <div className="col-md-12 ">
@@ -92,4 +97,6 @@ const mapstatetoprops = state => {
     orders: state.order_Reducer
   };
 };
-export default connect(mapstatetoprops, { get_All_Orders })(AdminListOfUsers);
+export default connect(mapstatetoprops, { get_All_Orders, set_Alert })(
+  AdminListOfUsers
+);

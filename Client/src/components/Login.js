@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Log_in } from "../Actions_art_wear/signAction";
+import Alert from "./layout/Alert";
 
 const Login = ({ Log_in, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,7 @@ const Login = ({ Log_in, isAuthenticated }) => {
     <Fragment>
       <div className="site-wrap ">
         <div className="site-section ">
+        <Alert />
           <form className="container" onSubmit={e => onSubmit(e)}>
             <div className="row ">
               <div className="col-md-6 mb-5 mb-md-0 m-auto">

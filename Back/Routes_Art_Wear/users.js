@@ -7,7 +7,6 @@ const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 const {
   checkingregister,
-  checkingmodify,
   validateCheck
 } = require("../Middleware/Validation");
 /*                          desc:    signup users route
@@ -17,7 +16,6 @@ router.post("/signup", checkingregister(), validateCheck, async (req, res) => {
   try {
     // ***************************** to handel the response  ****************************
 
- 
     const { name, email, password } = req.body;
 
     // ***************************** see if user exist ****************************
@@ -44,8 +42,7 @@ router.post("/signup", checkingregister(), validateCheck, async (req, res) => {
 
     const payload = {
       user: {
-        id: user.id,
-       
+        id: user.id
       }
     };
     let token = await jwt.sign(payload, "secret-token", {
@@ -106,7 +103,9 @@ router.post(
       let token = await jwt.sign(payload, "secret-token", {
         expiresIn: 360000
       });
+
       res.send({ token });
+
     } catch (error) {
       console.log("there is an error in catch \n", error.message);
       res.status(500).json({ msg: "Server Error" });
@@ -123,7 +122,9 @@ router.get("/user", auth, async (req, res) => {
     // ********** searching the user by id in the token *************************
 
     const user = await User.findById(req.user.id, "-password");
+
     res.status(200).send(user);
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Authontification Erro" });
@@ -137,7 +138,9 @@ router.get("/user", auth, async (req, res) => {
 router.get("/allusers", auth, async (req, res) => {
   try {
     const users = await User.find({}, "-password");
+
     res.status(200).json(users);
+
   } catch (err) {
     res.status(500).json({ msg: "Authontification Erro" });
   }
@@ -150,12 +153,25 @@ router.get("/allusers", auth, async (req, res) => {
 router.delete("/user/:id", auth, async (req, res) => {
   try {
     let id = req.params.id;
+
     let result = await User.findById(id);
+
+    // see if the user do exist
 
     if (!result)
       return res.status(404).json({ msg: " this user do not exist" });
 
+    // stopping the user from deleting his acount
+
+    if (id === req.user.id)
+      return res
+        .status(401)
+        .json({ msg: "this is your acount u cant delete it " });
+
+    // deleting profile
+
     let user = await User.findByIdAndRemove(id);
+
     res.status(200).json({ msg: `the user name " ${user.name} " is deleted` });
   } catch (err) {
     console.log("we fail to delete the User ");
@@ -163,35 +179,7 @@ router.delete("/user/:id", auth, async (req, res) => {
   }
 });
 
-/*                             @route   Put api/auth
-                               @desc    Modify user 
-                               @access  private            */
 
-router.put(
-  "/modify",
-  auth,
-  checkingmodify(),
-  validateCheck,
-  async (req, res) => {
-    try {
-      let useradress = await User.findById(req.user.id, "adress");
-      console.log("user", useradress);
-      if (!useradress)
-        return res
-          .status(400)
-          .json({ msg: " this user do not exist in data base" });
 
-          useradress= await User.findByIdAndUpdate(
-        req.user.id,
-        { $set: req.body },
-        { new: true }
-      );
-      res.status(200).json(useradress);
-    } catch (err) {
-      console.log(err);
-      res.status(400).json({ msg: "sry we couldent modify the user" });
-    }
-  }
-);
 
 module.exports = router;

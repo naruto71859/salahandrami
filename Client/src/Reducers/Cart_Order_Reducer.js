@@ -3,7 +3,8 @@ import {
   CLEAR_CART_STATE,
   GET_ALL_ORDERS,
   UPDATE_CART_ARTICLE,
-  DELETE_CART_PRODUCT
+  DELETE_CART_PRODUCT,
+  DELETE_ONE_ARTICLE_FROM_ORDER
 } from "../Actions_art_wear/Const";
 
 /* *************   Cart Reducer  ************************* */
@@ -46,7 +47,8 @@ export const order_Reducer = (state = orders, action) => {
   switch (type) {
     case GET_ALL_ORDERS:
       return payload;
-
+    case DELETE_ONE_ARTICLE_FROM_ORDER:
+      return payload;
     default:
       return state;
   }

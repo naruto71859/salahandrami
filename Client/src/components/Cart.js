@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CartProduct from "./layout/CartProduct";
@@ -7,9 +7,6 @@ import { set_Alert } from "../Actions_art_wear/alertAction";
 import Alert from "./layout/Alert";
 
 const Cart = ({ order = [], get_User_Profile, set_Alert }) => {
-  let [quantity, setquantity] = useState({ qte: 1 });
-  let { qte } = quantity;
-
   (order.length === 0 || !order) &&
     set_Alert({ msg: "No order yet created", alertType: "warning" });
 

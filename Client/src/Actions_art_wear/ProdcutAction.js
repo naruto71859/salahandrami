@@ -89,3 +89,4 @@ export const modify_product = (obj, id) => async dispatch => {
       );
   }
 };
+
